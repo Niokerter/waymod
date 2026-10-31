@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "building",
+	"key": {
+		"O": "minecraft:obsidian",
+		"P": "minecraft:ender_pearl",
+		"E": "minecraft:ender_eye"
+	},
+	"pattern": [
+		"OPO",
+		"OEO"
+	],
+	"result": {
+		"count": 1,
+		"id": "waymod:way_block"
+	}
+}

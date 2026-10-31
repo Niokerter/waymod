@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "misc",
+	"key": {
+		"B": "minecraft:iron_bars",
+		"I": "minecraft:iron_ingot",
+		"E": "minecraft:ender_eye"
+	},
+	"pattern": [
+		"BIB",
+		"IEI"
+	],
+	"result": {
+		"count": 1,
+		"id": "waymod:killer_core"
+	}
+}

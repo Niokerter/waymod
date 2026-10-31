@@ -1,0 +1,28 @@
+{
+	"schemaVersion": 1,
+	"id": "waymod",
+	"version": "${version}",
+	"name": "Way Mod",
+	"description": "Блоки переходов и крафтовые спавнеры: телепортация в заданные измерения по команде /way.",
+	"authors": [
+		"waymod"
+	],
+	"contact": {},
+	"license": "CC0-1.0",
+	"icon": "assets/waymod/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.example.waymod.WayMod"
+		],
+		"client": [
+			"com.example.waymod.client.WayModClient"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.20.1",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}

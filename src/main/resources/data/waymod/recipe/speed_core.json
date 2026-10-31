@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "misc",
+	"key": {
+		"R": "minecraft:redstone",
+		"E": "minecraft:ender_eye"
+	},
+	"pattern": [
+		"RRR",
+		"RER"
+	],
+	"result": {
+		"count": 1,
+		"id": "waymod:speed_core"
+	}
+}

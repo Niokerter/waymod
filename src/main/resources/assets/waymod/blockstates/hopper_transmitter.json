@@ -1,0 +1,7 @@
+{
+	"variants": {
+		"": {
+			"model": "waymod:block/hopper_transmitter"
+		}
+	}
+}

@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "misc",
+	"key": {
+		"#": "minecraft:iron_bars",
+		"E": "minecraft:ender_eye"
+	},
+	"pattern": [
+		"#E#",
+		"###"
+	],
+	"result": {
+		"count": 1,
+		"id": "waymod:craftable_spawner"
+	}
+}

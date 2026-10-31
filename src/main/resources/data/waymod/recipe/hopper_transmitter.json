@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "misc",
+	"key": {
+		"P": "minecraft:ender_pearl",
+		"H": "minecraft:hopper",
+		"R": "minecraft:redstone"
+	},
+	"pattern": [
+		"PHP",
+		"RHR"
+	],
+	"result": {
+		"count": 1,
+		"id": "waymod:hopper_transmitter"
+	}
+}

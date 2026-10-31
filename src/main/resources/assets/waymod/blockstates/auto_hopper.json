@@ -1,0 +1,7 @@
+{
+	"variants": {
+		"": {
+			"model": "waymod:block/auto_hopper"
+		}
+	}
+}
