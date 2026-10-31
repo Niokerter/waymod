@@ -7,7 +7,6 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.commands.Permissions;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -21,10 +20,12 @@ import java.util.Locale;
 
 /**
  * Команда /way:
- *   /way give <измерение> <x> <y> <z> — выдать блок перехода с заданной целью
- *   /way set  <измерение> <pos>       — задать цель блоку перехода на позиции (поддерживает ~)
- *   /way spawner <моб>                — выдать крафтовый спавнер с мобом (например /way spawner zombie)
- * Уровень доступа: команды модератора (как /gamemode).
+ *   /way give <измерение> <x> <y> <z> — выдать блок перехода с заданной целью (оператор)
+ *   /way set  <измерение> <pos>       — задать цель блоку перехода на позиции (оператор)
+ *   /way spawner <моб>                — выдать крафтовый спавнер (оператор ИЛИ креатив)
+ *   /way spawnerpro <моб>             — выдать Спавнер 2000 Pro (оператор ИЛИ креатив)
+ *   /way link  <pos>                  — привязать передатчик (оператор)
+ * Выживающему без прав спавнеры командой не выдаются — только оператор или креатив.
  */
 public final class WayCommand {
 	private WayCommand() {
@@ -33,8 +34,9 @@ public final class WayCommand {
 	public static void initialize() {
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(
 				Commands.literal("way")
-						.requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_MODERATOR))
+						// Корень без фильтра: ветки фильтруются сами (WayPerms).
 						.then(Commands.literal("give")
+								.requires(WayPerms::moderator)
 								.then(Commands.argument("dimension", StringArgumentType.word())
 										.suggests((context, builder) -> WayDims.suggest(builder))
 										.then(Commands.argument("x", IntegerArgumentType.integer())
@@ -44,20 +46,24 @@ public final class WayCommand {
 								)
 						)
 						.then(Commands.literal("set")
+								.requires(WayPerms::moderator)
 								.then(Commands.argument("dimension", StringArgumentType.word())
 										.suggests((context, builder) -> WayDims.suggest(builder))
 										.then(Commands.argument("pos", BlockPosArgument.blockPos())
 												.executes(WayCommand::setWayBlock)))
 						)
 						.then(Commands.literal("spawner")
+								.requires(WayPerms::spawners)
 								.then(Commands.argument("mob", StringArgumentType.word())
 										.executes(WayCommand::giveSpawner))
 						)
 						.then(Commands.literal("spawnerpro")
+								.requires(WayPerms::spawners)
 								.then(Commands.argument("mob", StringArgumentType.word())
 										.executes(WayCommand::giveProSpawner))
 						)
 						.then(Commands.literal("link")
+								.requires(WayPerms::moderator)
 								.then(Commands.argument("pos", BlockPosArgument.blockPos())
 										.executes(WayCommand::linkTransmitter))
 						)

@@ -3,7 +3,7 @@
 	"block.waymod.way_block": "Блок перехода",
 	"block.waymod.way_block.description": "ПКМ — телепорт в заданную точку. Shift+ПКМ — возврат. Цель задаётся командой /way give или /way set.",
 	"block.waymod.craftable_spawner": "Крафтовый спавнер",
-	"block.waymod.craftable_spawner.description": "Крафтится из железных решёток и око Эндера. Моб задаётся командой /way spawner.",
+	"block.waymod.craftable_spawner.description": "Моб задаётся командой /way spawner. Выдача спавнера — только оператору или игроку в креативе.",
 	"block.waymod.spawner_2000_pro": "Спавнер 2000 Pro",
 	"block.waymod.spawner_2000_pro.description": "Автоспавнер: 3 строки, до 150 мобов. Прокачка ядрами: скорость (до 0,5 с), вместимость, убийца (добыча ×5).",
 	"block.waymod.auto_hopper": "Авто-воронка",

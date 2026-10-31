@@ -3,7 +3,7 @@
 	"block.waymod.way_block": "Way Block",
 	"block.waymod.way_block.description": "Right-click: teleport to the given place. Shift+RMB: go back. The target is set with /way give or /way set.",
 	"block.waymod.craftable_spawner": "Craftable Spawner",
-	"block.waymod.craftable_spawner.description": "Crafted from iron bars and an eye of ender. The mob is set with /way spawner.",
+	"block.waymod.craftable_spawner.description": "The mob is set with /way spawner. Issued to operators and creative players only.",
 	"block.waymod.spawner_2000_pro": "Spawner 2000 Pro",
 	"block.waymod.spawner_2000_pro.description": "Auto spawner: 3 rows, up to 150 mobs. Upgrade with cores: speed (down to 0.5 s), capacity, killer (loot ×5).",
 	"block.waymod.auto_hopper": "Auto Hopper",
