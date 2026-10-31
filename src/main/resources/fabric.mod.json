@@ -3,11 +3,14 @@
 	"id": "waymod",
 	"version": "${version}",
 	"name": "Way Mod",
-	"description": "Блоки переходов и крафтовые спавнеры: телепортация в заданные измерения по команде /way.",
+	"description": "Телепорт-блоки, крафтовый спавнер, Спавнер 2000 Pro с ядрами прокачки, авто-воронка и передатчик. Команды /way.",
 	"authors": [
-		"waymod"
+		"Niokerter"
 	],
-	"contact": {},
+	"contact": {
+		"homepage": "https://Niokerter.github.io",
+		"sources": "https://github.com/Niokerter/waymod"
+	},
 	"license": "CC0-1.0",
 	"icon": "assets/waymod/icon.png",
 	"environment": "*",
