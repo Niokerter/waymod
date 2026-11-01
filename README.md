@@ -211,7 +211,7 @@ tools/make_textures.ps1    генератор PNG-текстур (PowerShell)
 
 ## Скачать
 
-- **Jar мода (v1.1.0):** https://github.com/Niokerter/waymod/releases/download/v1.1.0/waymod-1.1.0.jar
+- **Jar мода (v1.1.1):** https://github.com/Niokerter/waymod/releases/download/v1.1.1/waymod-1.1.1.jar
 - **Все релизы:** https://github.com/Niokerter/waymod/releases/latest
 - Сайт: https://Niokerter.github.io
 - Требуется: Fabric Loader 0.20.1+, Fabric API 0.141.6+1.21.11, Minecraft 1.21.11, Java 21+.
