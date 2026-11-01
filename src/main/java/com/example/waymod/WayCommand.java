@@ -10,7 +10,7 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
@@ -73,7 +73,7 @@ public final class WayCommand {
 	/** /way give <измерение> <x> <y> <z> */
 	private static int giveWayBlock(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 		CommandSourceStack source = context.getSource();
-		ServerPlayer player = source.playerOrException();
+		ServerPlayer player = source.getPlayerOrException();
 
 		WayTarget target = readTarget(context);
 		if (target == null) {
@@ -119,19 +119,19 @@ public final class WayCommand {
 	/** Общая выдача блока-спавнера с мобом: /way spawner* <моб> */
 	private static int giveMobBlock(CommandContext<CommandSourceStack> context, Item item, String messageKey) throws CommandSyntaxException {
 		CommandSourceStack source = context.getSource();
-		ServerPlayer player = source.playerOrException();
+		ServerPlayer player = source.getPlayerOrException();
 
-		String mobInput = context.getArgument("mob", String.class);
+		String mobInput = context.getArgument("mob", String.class).toLowerCase(Locale.ROOT);
 		if (mobInput.contains(":")) {
 			// "minecraft:pig" или id из другого мода — проверяем, что строка вообще парсится
 			try {
-				ResourceLocation.parse(mobInput.toLowerCase(Locale.ROOT));
+				Identifier.parse(mobInput);
 			} catch (RuntimeException invalid) {
 				source.sendFailure(Component.translatable("command.waymod.bad_mob", mobInput));
 				return 0;
 			}
 		} else {
-			mobInput = "minecraft:" + mobInput.toLowerCase(Locale.ROOT);
+			mobInput = "minecraft:" + mobInput;
 		}
 
 		// Проверяем, что такой моб есть
@@ -140,31 +140,33 @@ public final class WayCommand {
 			return 0;
 		}
 
+		// Лямбда требует effectively final
+		final String mobId = mobInput;
 		ItemStack stack = new ItemStack(item);
-		stack.set(ModComponents.MOB, mobInput);
+		stack.set(ModComponents.MOB, mobId);
 		giveItem(player, stack);
-		source.sendSuccess(() -> Component.translatable(messageKey, mobInput), false);
+		source.sendSuccess(() -> Component.translatable(messageKey, mobId), false);
 		return 1;
 	}
 
 	/** /way link <pos> — привязывает «прицельный» передатчик к контейнеру на позиции */
 	private static int linkTransmitter(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 		CommandSourceStack source = context.getSource();
-		ServerPlayer player = source.playerOrException();
+		ServerPlayer player = source.getPlayerOrException();
 
 		WayTarget transmitterAt = player.getAttached(ModAttachments.LINKED_TRANSMITTER);
 		if (transmitterAt == null) {
 			source.sendFailure(Component.translatable("command.waymod.link_no_transmitter"));
 			return 0;
 		}
-		if (!source.getLevel().dimension().location().toString().equals(transmitterAt.dimension())) {
+		if (!source.getLevel().dimension().identifier().toString().equals(transmitterAt.dimension())) {
 			source.sendFailure(Component.translatable("command.waymod.link_wrong_dim"));
 			return 0;
 		}
 		BlockPos transmitterPos = new BlockPos(transmitterAt.x(), transmitterAt.y(), transmitterAt.z());
 		if (source.getLevel().getBlockEntity(transmitterPos) instanceof TransmitterBlockEntity transmitter) {
 			BlockPos target = BlockPosArgument.getBlockPos(context, "pos");
-			transmitter.setTarget(source.getLevel(), target, source.getLevel().dimension().location().toString());
+			transmitter.setTarget(source.getLevel(), target, source.getLevel().dimension().identifier().toString());
 			source.sendSuccess(() -> Component.translatable(
 					"command.waymod.linked_ok", target.getX(), target.getY(), target.getZ()), false);
 			player.removeAttached(ModAttachments.LINKED_TRANSMITTER);

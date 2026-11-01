@@ -10,6 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -38,8 +39,11 @@ public class TransmitterBlock extends BaseEntityBlock {
 	}
 
 	@Override
-	public BlockEntityType<? extends BlockEntity> getType() {
-		return ModBlockEntities.TRANSMITTER_BE;
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+		if (level.isClientSide()) {
+			return null;
+		}
+		return createTickerHelper(type, ModBlockEntities.TRANSMITTER_BE, TransmitterBlockEntity::tick);
 	}
 
 	@Override
@@ -49,7 +53,7 @@ public class TransmitterBlock extends BaseEntityBlock {
 				if (player.isShiftKeyDown()) {
 					// Запоминаем передатчик для следующего /way link
 					serverPlayer.setAttached(ModAttachments.LINKED_TRANSMITTER,
-							new WayTarget(serverLevel.dimension().location().toString(), pos.getX(), pos.getY(), pos.getZ()));
+							new WayTarget(serverLevel.dimension().identifier().toString(), pos.getX(), pos.getY(), pos.getZ()));
 					serverPlayer.displayClientMessage(Component.translatable("message.waymod.transmitter.pair_mode"), true);
 				} else if (transmitter.hasTarget()) {
 					serverPlayer.displayClientMessage(Component.translatable(

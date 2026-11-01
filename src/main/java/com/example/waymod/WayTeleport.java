@@ -3,8 +3,8 @@ package com.example.waymod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -34,14 +34,14 @@ public final class WayTeleport {
 	}
 
 	private static void teleportToTarget(ServerPlayer player, ServerLevel level, WayTarget target) {
-		ServerLevel destination = levelOf(player.server, target.dimension());
+		ServerLevel destination = levelOf(player.level().getServer(), target.dimension());
 		if (destination == null) {
 			player.displayClientMessage(Component.translatable("message.waymod.bad_dimension", target.dimension()), true);
 			return;
 		}
 		// Точка возврата: где стоим сейчас (координаты блока под нами).
 		WayTarget back = new WayTarget(
-				player.level().dimension().location().toString(),
+				player.level().dimension().identifier().toString(),
 				player.getBlockX(),
 				player.getBlockY(),
 				player.getBlockZ()
@@ -58,7 +58,7 @@ public final class WayTeleport {
 			player.displayClientMessage(Component.translatable("message.waymod.no_return"), true);
 			return;
 		}
-		ServerLevel destination = levelOf(player.server, back.dimension());
+		ServerLevel destination = levelOf(player.level().getServer(), back.dimension());
 		if (destination == null) {
 			player.displayClientMessage(Component.translatable("message.waymod.no_return"), true);
 			return;
@@ -71,24 +71,23 @@ public final class WayTeleport {
 
 	/** Канонический id измерения -> уровень сервера (или null, если измерения нет). */
 	public static ServerLevel levelOf(MinecraftServer server, String dimensionId) {
-		return server.getLevel(ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(dimensionId)));
+		return server.getLevel(ResourceKey.create(Registries.DIMENSION, Identifier.parse(dimensionId)));
 	}
 
 	/**
 	 * == ЗАМЕНИТЕ-ЕСЛИ-ОШИБКА ==
-	 * Самая «хрупкая» строка мода: телепорт между измерениями (1.21.9+).
-	 * Ожидаемое API:
-	 *   player.teleport(new TeleportTarget(ServerLevel, Vec3, Vec3, float yaw, float pitch, TeleportTarget.NO_OP));
-	 * Если компилятор не найдёт класс — попробуйте варианты import из README (раздел «Если компилятор ругается»).
+	 * Самая «хрупкая» строка мода: телепорт между измерениями (1.21.11).
+	 * Фактическое API: net.minecraft.world.level.portal.TeleportTransition
+	 *   player.teleport(new TeleportTransition(ServerLevel, Vec3 pos, Vec3 delta, yaw, pitch, PostTeleportTransition));
 	 */
 	private static void teleport(ServerPlayer player, ServerLevel destination, WayTarget target) {
-		player.teleport(new net.minecraft.world.entity.TeleportTarget(
+		player.teleport(new net.minecraft.world.level.portal.TeleportTransition(
 				destination,
 				Vec3.atBottomCenterOf(new BlockPos(target.x(), target.y(), target.z())),
 				Vec3.ZERO,
 				player.getYRot(),
 				player.getXRot(),
-				net.minecraft.world.entity.TeleportTarget.NO_OP
+				net.minecraft.world.level.portal.TeleportTransition.DO_NOTHING
 		));
 	}
 }

@@ -3,10 +3,11 @@ package com.example.waymod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Container;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -34,7 +35,7 @@ public class AutoHopperBlockEntity extends BlockEntity {
 	// ---------- фильтр ----------
 
 	/** ПКМ с предметом: добавить предмет в фильтр. */
-	public void addFilter(ServerLevel level, ServerPlayer player, ItemStack stack) {
+	public void addFilter(ServerLevel level, Player player, ItemStack stack) {
 		if (stack.isEmpty()) {
 			return;
 		}
@@ -47,7 +48,7 @@ public class AutoHopperBlockEntity extends BlockEntity {
 	}
 
 	/** Shift+ПКМ с предметом: убрать предмет из фильтра. */
-	public void removeFilter(ServerLevel level, ServerPlayer player, ItemStack stack) {
+	public void removeFilter(ServerLevel level, Player player, ItemStack stack) {
 		if (stack.isEmpty()) {
 			return;
 		}
@@ -59,14 +60,14 @@ public class AutoHopperBlockEntity extends BlockEntity {
 	}
 
 	/** Shift+ПКМ без предмета: очистить фильтр. */
-	public void clearFilter(ServerLevel level, ServerPlayer player) {
+	public void clearFilter(ServerLevel level, Player player) {
 		this.filter.clear();
 		setChanged();
 		player.displayClientMessage(Component.translatable("message.waymod.hopper.filter_cleared"), true);
 	}
 
 	/** ПКМ без предмета: показать фильтр. */
-	public void showFilter(ServerLevel level, ServerPlayer player) {
+	public void showFilter(ServerLevel level, Player player) {
 		if (this.filter.isEmpty()) {
 			player.displayClientMessage(Component.translatable("message.waymod.hopper.filter_empty"), true);
 		} else {
@@ -113,7 +114,7 @@ public class AutoHopperBlockEntity extends BlockEntity {
 			if (leftover.isEmpty()) {
 				item.discard(); // == ЗАМЕНИТЕ-ЕСЛИ-ОШИБКА == Entity#discard()
 			} else if (leftover.getCount() < stack.getCount()) {
-				item.set(leftover); // == ЗАМЕНИТЕ-ЕСЛИ-ОШИБКА == ItemEntity#set(ItemStack)
+				item.setItem(leftover); // == ЗАМЕНИТЕ-ЕСЛИ-ОШИБКА == ItemEntity#setItem(ItemStack)
 				hopper.setChanged();
 			}
 		}
@@ -123,10 +124,11 @@ public class AutoHopperBlockEntity extends BlockEntity {
 		int minX = pos.getX() & ~15;
 		int minZ = pos.getZ() & ~15;
 		// == ЗАМЕНИТЕ-ЕСЛИ-ОШИБКА ==
-		// Границы по высоте: getMinBuildHeight()/getMaxBuildHeight()
+		// Границы по высоте: граница мира из его типа измерения (minY / minY+height).
+		int minY = level.dimensionType().minY();
 		return new AABB(
-				minX, level.getMinBuildHeight(), minZ,
-				minX + 16, level.getMaxBuildHeight(), minZ + 16);
+				minX, minY, minZ,
+				minX + 16, minY + level.dimensionType().height(), minZ + 16);
 	}
 
 	// ---------- сохранение ----------

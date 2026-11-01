@@ -3,8 +3,8 @@ package com.example.waymod;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.Level;
 
@@ -53,7 +53,7 @@ public final class WayDims {
 		}
 		// Проверяем, что строка вообще может быть id ("minecraft:xxx").
 		try {
-			ResourceLocation.parse(input);
+			Identifier.parse(input);
 		} catch (RuntimeException invalid) {
 			return null;
 		}
@@ -62,12 +62,8 @@ public final class WayDims {
 
 	/** Есть ли такое измерение на сервере. */
 	public static boolean exists(MinecraftServer server, String dimensionId) {
-		try {
-			// == ЗАМЕНИТЕ-ЕСЛИ-ОШИБКА == server.levelKeys()
-			return server.levelKeys().anyMatch(key -> key.location().equals(mustId(dimensionId)));
-		} catch (RuntimeException unknown) {
-			return false;
-		}
+		// == ЗАМЕНИТЕ-ЕСЛИ-ОШИБКА == server.levelKeys() возвращает Set<ResourceKey<Level>>
+		return server.levelKeys().contains(keyOf(dimensionId));
 	}
 
 	public static ResourceKey<Level> keyOf(String dimensionId) {
@@ -80,11 +76,11 @@ public final class WayDims {
 		return builder.buildFuture();
 	}
 
-	private static ResourceLocation mustId(String dimensionId) {
+	private static Identifier mustId(String dimensionId) {
 		if (dimensionId.indexOf(':') < 0) {
 			// нет префикса — считаем ванильным измерением
-			return ResourceLocation.withDefaultNamespace(dimensionId.toLowerCase(Locale.ROOT));
+			return Identifier.withDefaultNamespace(dimensionId.toLowerCase(Locale.ROOT));
 		}
-		return ResourceLocation.parse(dimensionId.toLowerCase(Locale.ROOT));
+		return Identifier.parse(dimensionId.toLowerCase(Locale.ROOT));
 	}
 }

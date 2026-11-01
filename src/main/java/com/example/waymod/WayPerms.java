@@ -1,8 +1,10 @@
 package com.example.waymod;
 
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Permissions;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.permissions.LevelBasedPermissionSet;
+import net.minecraft.server.permissions.Permission;
+import net.minecraft.server.permissions.PermissionLevel;
 
 /**
  * Права доступа по веткам команды /way:
@@ -16,8 +18,13 @@ public final class WayPerms {
 
 	/** Уровень модератора: операторы, консоль/PvE-серверные источники. */
 	public static boolean moderator(CommandSourceStack source) {
-		// == ЗАМЕНИТЕ-ЕСЛИ-ОШИБКА == Permissions.COMMANDS_MODERATOR
-		return source.permissions().hasPermission(Permissions.COMMANDS_MODERATOR);
+		// == ЗАМЕНИТЕ-ЕСЛИ-ОШИБКА == net.minecraft.server.permissions.*
+		// У серверных источников набор прав всегда «уровневый» (LevelBasedPermissionSet):
+		// оператор, гейммейстер, админ и владелец — все выше или на уровне модератора.
+		if (source.permissions() instanceof LevelBasedPermissionSet set) {
+			return set.level().isEqualOrHigherThan(PermissionLevel.MODERATORS);
+		}
+		return source.permissions().hasPermission(new Permission.HasCommandLevel(PermissionLevel.MODERATORS));
 	}
 
 	/**
@@ -32,7 +39,7 @@ public final class WayPerms {
 		return player != null && player.isCreative();
 	}
 
-	/** == ЗАМЕНИТЕ-ЕСЛИ-ОШИБКА == CommandSourceStack#getPlayer() */
+	/** CommandSourceStack#getPlayer() */
 	private static ServerPlayer getPlayer(CommandSourceStack source) {
 		return source.getPlayer();
 	}

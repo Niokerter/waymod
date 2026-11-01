@@ -19,13 +19,13 @@ public class ProSpawnerItem extends BlockItem {
 	}
 
 	@Override
-	protected boolean postPlacement(BlockPos pos, Level level, Player player, ItemStack stack, BlockState state) {
+	protected boolean updateCustomBlockEntityTag(BlockPos pos, Level level, Player player, ItemStack stack, BlockState state) {
 		if (level.getBlockEntity(pos) instanceof ProSpawnerBlockEntity pro && !stack.isEmpty()) {
 			String mob = stack.get(ModComponents.MOB);
 			if (mob != null) {
 				pro.setMobId(mob);
 			}
 		}
-		return super.postPlacement(pos, level, player, stack, state);
+		return super.updateCustomBlockEntityTag(pos, level, player, stack, state);
 	}
 }

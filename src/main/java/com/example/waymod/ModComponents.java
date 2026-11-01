@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 /**
  * Пользовательские компоненты данных (Data Components) мода.
@@ -34,7 +34,7 @@ public final class ModComponents {
 		Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, id("mob"), MOB);
 	}
 
-	public static ResourceLocation id(String path) {
-		return ResourceLocation.fromNamespaceAndPath(WayMod.MOD_ID, path);
+	public static Identifier id(String path) {
+		return Identifier.fromNamespaceAndPath(WayMod.MOD_ID, path);
 	}
 }

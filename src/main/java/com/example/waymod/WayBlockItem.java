@@ -19,13 +19,13 @@ public class WayBlockItem extends BlockItem {
 	}
 
 	@Override
-	protected boolean postPlacement(BlockPos pos, Level level, Player player, ItemStack stack, BlockState state) {
+	protected boolean updateCustomBlockEntityTag(BlockPos pos, Level level, Player player, ItemStack stack, BlockState state) {
 		if (level.getBlockEntity(pos) instanceof WayBlockEntity way && !stack.isEmpty()) {
 			WayTarget target = stack.get(ModComponents.WAY_TARGET);
 			if (target != null) {
 				way.setTarget(target);
 			}
 		}
-		return super.postPlacement(pos, level, player, stack, state);
+		return super.updateCustomBlockEntityTag(pos, level, player, stack, state);
 	}
 }

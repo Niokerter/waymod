@@ -43,16 +43,11 @@ public class ProSpawnerBlock extends BaseEntityBlock {
 	}
 
 	@Override
-	public BlockEntityType<? extends BlockEntity> getType() {
-		return ModBlockEntities.PRO_SPAWNER_BE;
-	}
-
-	@Override
 	public <T extends BlockEntity> net.minecraft.world.level.block.entity.BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
 		if (level.isClientSide()) {
 			return null;
 		}
-		return BlockEntity.createTickerHelper(type, ModBlockEntities.PRO_SPAWNER_BE, ProSpawnerBlockEntity::tick);
+		return createTickerHelper(type, ModBlockEntities.PRO_SPAWNER_BE, ProSpawnerBlockEntity::tick);
 	}
 
 	@Override

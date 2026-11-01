@@ -161,8 +161,8 @@ public class ProSpawnerBlockEntity extends BlockEntity {
 			double x = pos.getX() + 0.5 + (level.random.nextFloat() - 0.5) * 4.0;
 			double y = pos.getY() + 1.0;
 
-			// == ЗАМЕНИТЕ-ЕСЛИ-ОШИБКА == EntityType#create(Level, SpawnReason)
-			Entity created = type.create(level, net.minecraft.world.entity.SpawnReason.SPAWNER);
+			// == ЗАМЕНИТЕ-ЕСЛИ-ОШИБКА == EntityType#create(Level, EntitySpawnReason)
+			Entity created = type.create(level, net.minecraft.world.entity.EntitySpawnReason.SPAWNER);
 			if (created == null) {
 				continue;
 			}

@@ -57,7 +57,7 @@ public class TransmitterBlockEntity extends BlockEntity {
 			return;
 		}
 		// Работаем в том же измерении, где стоит передатчик
-		if (!level.dimension().location().toString().equals(transmitter.linkedDimension)) {
+		if (!level.dimension().identifier().toString().equals(transmitter.linkedDimension)) {
 			return;
 		}
 		BlockPos targetPos = new BlockPos(transmitter.targetX, transmitter.targetY, transmitter.targetZ);

@@ -39,11 +39,6 @@ public class WayBlock extends BaseEntityBlock {
 	}
 
 	@Override
-	public BlockEntityType<? extends BlockEntity> getType() {
-		return ModBlockEntities.WAY_BE;
-	}
-
-	@Override
 	public InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
 		if (level.getBlockEntity(pos) instanceof WayBlockEntity way) {
 			// Эффект телепорта выполняется только на сервере; на клиенте возвращаем успех, чтобы рукопожатие было честным.

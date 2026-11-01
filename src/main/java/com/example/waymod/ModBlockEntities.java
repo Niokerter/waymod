@@ -3,7 +3,7 @@ package com.example.waymod;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
@@ -41,6 +41,6 @@ public final class ModBlockEntities {
 	}
 
 	private static <T extends BlockEntity> BlockEntityType<T> register(String path, BlockEntityType<T> type) {
-		return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(WayMod.MOD_ID, path), type);
+		return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, Identifier.fromNamespaceAndPath(WayMod.MOD_ID, path), type);
 	}
 }

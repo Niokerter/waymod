@@ -6,7 +6,8 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -38,7 +39,7 @@ public final class ModItems {
 
 	/** Собственная вкладка творчества с предметами мода. */
 	public static final CreativeModeTab WAY_TAB = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
-			ResourceLocation.fromNamespaceAndPath(WayMod.MOD_ID, "main"),
+			Identifier.fromNamespaceAndPath(WayMod.MOD_ID, "main"),
 			FabricItemGroup.builder()
 					.title(Component.translatable("itemGroup.waymod"))
 					.icon(() -> new ItemStack(WAY_BLOCK_ITEM))
@@ -75,17 +76,17 @@ public final class ModItems {
 	/** Свойства для блок-предметов (описание с префиксом блока). */
 	private static Item.Properties blockItemProperties(String path) {
 		return new Item.Properties()
-				.setId(ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(WayMod.MOD_ID, path)))
+				.setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(WayMod.MOD_ID, path)))
 				.useBlockDescriptionPrefix();
 	}
 
 	/** Свойства для обычных предметов (ядра). */
 	private static Item.Properties plainItemProperties(String path) {
 		return new Item.Properties()
-				.setId(ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(WayMod.MOD_ID, path)));
+				.setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(WayMod.MOD_ID, path)));
 	}
 
 	private static Item register(String path, Item item) {
-		return Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(WayMod.MOD_ID, path), item);
+		return Registry.register(BuiltInRegistries.ITEM, Identifier.fromNamespaceAndPath(WayMod.MOD_ID, path), item);
 	}
 }

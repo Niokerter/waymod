@@ -30,8 +30,7 @@ public class CraftableSpawnerBlockEntity extends SpawnerBlockEntity {
 	 * Задаёт моба напрямую (обёртка над ванильной логикой спавнера).
 	 */
 	private void setMob(EntityType<?> type, Level level, BlockPos pos) {
-		// == ЗАМЕНИТЕ-ЕСЛИ-ОШИБКА ==
-		// In вышем контексте: setEntityId(EntityType<?>, Level, RandomSource, BlockPos)
+		// BaseSpawner#setEntityId(EntityType<?>, Level, RandomSource, BlockPos) — 4 аргумента в 1.21.11.
 		this.getSpawner().setEntityId(type, level, level.getRandom(), pos);
 		setChanged();
 	}

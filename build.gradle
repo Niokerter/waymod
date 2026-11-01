@@ -15,6 +15,9 @@ repositories {
 loom {
 	splitEnvironmentSourceSets()
 
+	// AccessWidener: открывает приватные поля BaseSpawner (сахар для вей-спавнера).
+	accessWidenerPath = file("src/main/resources/waymod.accesswidener")
+
 	mods {
 		"waymod" {
 			sourceSet sourceSets.main
