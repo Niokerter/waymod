@@ -16,14 +16,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 /**
- * «Спавнер (HHN)»: автоматический спавнер с прокачкой ядрами и ванильными предметами.
- *   ядро скорости   — задержка вдвое меньше (минимум 10 тиков = полсекунды);
- *   ядро вместимости — +50 к максимальному числу живых мобов (максимум 150);
- *   ядро убийцы      — spawned мобы умирают автоматически, добыча ×5.
- * Ванильные предметы (ПКМ по блоку, работают у всех):
- *   сахар — −2 тика задержки за штуку без предела; редстоун — включить «фарм»;
- *   изумруд — выключить «фарм»; железо — +1 строка; сундук — +10 лимита.
- * ПКМ с ионком яйца моба фиксирует моба; /way spawnerpro задаёт моба сразу.
+ * «Спавнер (HHN)»: автоматический спавнер с ванильной прокачкой. Крафтится.
+ *   сахар    — −2 тика задержки за штуку без предела;
+ *   редстоун — режим «фарм»: мобы умирают автоматически, добыча ×5;
+ *   изумруд  — выключить «фарм»; железо — +1 строка; сундук — +10 лимита (макс 150).
+ * ПКМ с яйцом спавна задаёт моба; /way spawnerpro задаёт моба сразу.
  */
 public class ProSpawnerBlock extends BaseEntityBlock {
 	private final MapCodec<? extends ProSpawnerBlock> codec = simpleCodec(ProSpawnerBlock::new);
@@ -56,19 +53,7 @@ public class ProSpawnerBlock extends BaseEntityBlock {
 			if (level.isClientSide()) {
 				return InteractionResult.SUCCESS;
 			}
-			if (stack.is(ModItems.SPEED_CORE)) {
-				pro.applySpeedCore();
-				stack.shrink(1);
-				pro.sendStatus(player);
-			} else if (stack.is(ModItems.CAPACITY_CORE)) {
-				pro.applyCapacityCore();
-				stack.shrink(1);
-				pro.sendStatus(player);
-			} else if (stack.is(ModItems.KILLER_CORE)) {
-				pro.applyKillerCore();
-				stack.shrink(1);
-				pro.sendStatus(player);
-			} else if (stack.is(net.minecraft.world.item.Items.SUGAR)) {
+			if (stack.is(net.minecraft.world.item.Items.SUGAR)) {
 				// Сахар — ванильное ускорение: −2 тика за штуку, без предела (до 1 тика).
 				pro.applySugar();
 				stack.shrink(1);
@@ -89,7 +74,7 @@ public class ProSpawnerBlock extends BaseEntityBlock {
 				stack.shrink(1);
 				pro.sendStatus(player);
 			} else if (stack.is(net.minecraft.world.item.Items.CHEST)) {
-				// Сундук — ванильное расширение: +10 к лимиту (медленнее ядра вместимости).
+				// Сундук — +10 к лимиту живых мобов (максимум 150).
 				pro.applyChest();
 				stack.shrink(1);
 				pro.sendStatus(player);

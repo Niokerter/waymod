@@ -1,17 +1,18 @@
 {
 	"type": "minecraft:crafting_shaped",
-	"category": "misc",
+	"category": "building",
 	"key": {
 		"B": "minecraft:iron_bars",
-		"I": "minecraft:iron_ingot",
+		"D": "minecraft:diamond",
 		"E": "minecraft:ender_eye"
 	},
 	"pattern": [
-		"BIB",
-		"IEI"
+		"DBD",
+		"BEB",
+		"DBD"
 	],
 	"result": {
 		"count": 1,
-		"id": "waymod:killer_core"
+		"id": "waymod:spawner_2000_pro"
 	}
 }

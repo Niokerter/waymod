@@ -32,11 +32,6 @@ public final class ModItems {
 	public static final Item TRANSMITTER_ITEM = register("hopper_transmitter",
 			new BlockItem(ModBlocks.TRANSMITTER, blockItemProperties("hopper_transmitter")));
 
-	// --- Ядра прокачки ---
-	public static final Item SPEED_CORE = register("speed_core", new Item(plainItemProperties("speed_core")));
-	public static final Item CAPACITY_CORE = register("capacity_core", new Item(plainItemProperties("capacity_core")));
-	public static final Item KILLER_CORE = register("killer_core", new Item(plainItemProperties("killer_core")));
-
 	/** Собственная вкладка творчества с предметами мода. */
 	public static final CreativeModeTab WAY_TAB = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
 			Identifier.fromNamespaceAndPath(WayMod.MOD_ID, "main"),
@@ -47,9 +42,6 @@ public final class ModItems {
 						output.accept(WAY_BLOCK_ITEM);
 						output.accept(CRAFTABLE_SPAWNER_ITEM);
 						output.accept(PRO_SPAWNER_ITEM);
-						output.accept(SPEED_CORE);
-						output.accept(CAPACITY_CORE);
-						output.accept(KILLER_CORE);
 						output.accept(AUTO_HOPPER_ITEM);
 						output.accept(TRANSMITTER_ITEM);
 					})
@@ -64,9 +56,6 @@ public final class ModItems {
 		registered(PRO_SPAWNER_ITEM);
 		registered(AUTO_HOPPER_ITEM);
 		registered(TRANSMITTER_ITEM);
-		registered(SPEED_CORE);
-		registered(CAPACITY_CORE);
-		registered(KILLER_CORE);
 		registered(WAY_TAB);
 	}
 
@@ -78,12 +67,6 @@ public final class ModItems {
 		return new Item.Properties()
 				.setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(WayMod.MOD_ID, path)))
 				.useBlockDescriptionPrefix();
-	}
-
-	/** Свойства для обычных предметов (ядра). */
-	private static Item.Properties plainItemProperties(String path) {
-		return new Item.Properties()
-				.setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(WayMod.MOD_ID, path)));
 	}
 
 	private static Item register(String path, Item item) {

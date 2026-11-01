@@ -18,6 +18,7 @@ public class WayMod implements ModInitializer {
 		ModItems.initialize();
 		ModBlockEntities.initialize();
 		ModAttachments.initialize();
+		VanillaSpawnerUpgrades.initialize();
 		WayCommand.initialize();
 
 		LOGGER.info("[Way Mod] Загружен: блоки переходов, крафтовые спавнеры и команда /way.");

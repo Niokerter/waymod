@@ -1,16 +1,16 @@
 {
 	"type": "minecraft:crafting_shaped",
-	"category": "misc",
+	"category": "building",
 	"key": {
-		"R": "minecraft:redstone",
+		"#": "minecraft:iron_bars",
 		"E": "minecraft:ender_eye"
 	},
 	"pattern": [
-		"RRR",
-		"RER"
+		"#E#",
+		"###"
 	],
 	"result": {
 		"count": 1,
-		"id": "waymod:speed_core"
+		"id": "waymod:craftable_spawner"
 	}
 }

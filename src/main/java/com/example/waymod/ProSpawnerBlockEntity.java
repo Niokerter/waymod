@@ -32,7 +32,7 @@ public class ProSpawnerBlockEntity extends BlockEntity {
 
 	/** Стартовые значения. */
 	private static final int START_DELAY = 100;   // 5 секунд
-	private static final int MIN_DELAY = 10;      // 0.5 секунды (пол ядра скорости)
+	private static final int MIN_DELAY = 10;      // 0.5 секунды
 	private static final int START_CAPACITY = 10;
 	private static final int MAX_CAPACITY = 150;
 	private static final int LOOT_MULTIPLIER = 5;
@@ -52,23 +52,13 @@ public class ProSpawnerBlockEntity extends BlockEntity {
 
 	// ---------- прокачка ----------
 
-	public void applySpeedCore() {
-		this.delay = Math.max(MIN_DELAY, this.delay / 2);
-		setChanged();
-	}
-
-	/** Ванильная версия: сахар — минус 2 тика задержки за штуку, **без предела** (минимум 1 тик). */
+	/** Сахар — минус 2 тика задержки за штуку, без предела (минимум 1 тик). */
 	public void applySugar() {
 		this.delay = Math.max(1, this.delay - 2);
 		setChanged();
 	}
 
-	public void applyCapacityCore() {
-		this.capacity = Math.min(MAX_CAPACITY, this.capacity + 50);
-		setChanged();
-	}
-
-	/** Ванильная версия: сундук — плюс 10 к лимиту (максимум 150). */
+	/** Сундук — плюс 10 к лимиту (максимум 150). */
 	public void applyChest() {
 		this.capacity = Math.min(MAX_CAPACITY, this.capacity + 10);
 		setChanged();
@@ -79,13 +69,13 @@ public class ProSpawnerBlockEntity extends BlockEntity {
 		setChanged();
 	}
 
-	/** Ванильная версия: изумруд — выключает режим «фарм» (ванильного обратного пути у ядра убийцы нет). */
+	/** Изумруд — выключает режим «фарм» обратно. */
 	public void applyKillerOff() {
 		this.killer = false;
 		setChanged();
 	}
 
-	/** Ванильная версия: железный слиток — +1 строка (сколько мобов спавнится за раз; старт 3, максимум 12). */
+	/** Железный слиток — +1 строка (сколько мобов спавнится за раз; старт 3, максимум 12). */
 	public void applyIronRow() {
 		this.rows = Math.min(MAX_ROWS, this.rows + 1);
 		setChanged();
